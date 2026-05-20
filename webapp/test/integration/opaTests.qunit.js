@@ -1,7 +1,12 @@
 /* global QUnit */
 QUnit.config.autostart = false;
 
-sap.ui.require(["ns/html5module/test/integration/AllJourneys"
-], function () {
-	QUnit.start();
+sap.ui.getCore().attachInit(function () {
+	"use strict";
+
+	sap.ui.require([
+		"ns/HTML5Module/test/integration/AllJourneys"
+	], function () {
+		QUnit.start();
+	});
 });

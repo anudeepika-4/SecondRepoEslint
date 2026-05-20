@@ -84,30 +84,30 @@
         "viewType": "XML",
         "path": "ns.html5module.view",
         "async": true,
-        "viewPath": "ns.html5module.view"
+        "viewPath": "ns.html5module.view",
+        "clearControlAggregation": false
       },
-      "routes": [
-        {
-          "name": "RouteView1",
-          "pattern": ":?query:",
-          "target": [
-            "TargetView1"
-          ]
-        }
-      ],
-      "targets": {
-        "TargetView1": {
-          "id": "View1",
-          "name": "View1"
-        }
-      }
+		"routes": [{
+				"name": "RouteView1",
+				"pattern": "RouteView1",
+				"target": ["TargetView1"]
+			}],
+			"targets": {
+				"TargetView1": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewId": "View1",
+					"viewName": "View1"
+				}
+			}
     },
     "rootView": {
-      "viewName": "ns.html5module.view.App",
-      "type": "XML",
-      "id": "App",
-      "async": true
-    }
+			"viewName": "ns.html5module.view.View1",
+			"type": "XML",
+			"async": true,
+			"id": "View1"
+		}
   },
   "sap.cloud": {
     "public": true,

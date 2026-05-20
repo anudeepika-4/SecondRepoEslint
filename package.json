@@ -16,7 +16,21 @@
     "eslint": "^10",
     "ui5-task-zipper": "^3.4.x",
     "rimraf": "^5.0.5",
-    "mbt": "^1.2.29"
+    "mbt": "^1.2.29",
+    "@sap/ui5-builder-webide-extension": "1.0.x",
+    "@sapui5/ts-types": "1.71.x",
+    "bestzip": "2.1.4",
+    "karma": "^4.4.1",
+    "karma-browserify": "^8.1.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.2",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha": "^2.0.1",
+    "karma-qunit": "^4.2.1",
+    "karma-ui5": "^2.4.0",
+    "karma-webdriver-launcher": "^1.0.8",
+    "mocha": "^11.7.5",
+    "qunit": "^2.25.0"
   },
   "scripts": {
     "start": "fiori run --open \"test/flp.html#app-preview\"",
@@ -31,7 +45,8 @@
     "unit-test": "fiori run --open \"test/unit/unitTests.qunit.html\"",
     "build:cf": "ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateCachebusterInfo",
     "build:mta": "rimraf resources mta_archives && mbt build",
-    "undeploy": "cf undeploy nshtml5module --delete-services --delete-service-keys --delete-service-brokers"
+    "undeploy": "cf undeploy nshtml5module --delete-services --delete-service-keys --delete-service-brokers",
+    "test": "karma start"
   },
   "sapuxLayer": "CUSTOMER_BASE"
 }
