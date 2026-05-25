@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<testsuite name="HeadlessChrome 148.0.0 (Windows 10.0.0)" package="KarmaTests" timestamp="2026-05-25T12:12:13" id="0" hostname="rajeshm-lap" tests="13" errors="0" failures="3" time="0.004">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.0.0 Safari/537.36"/>
+  </properties>
+  <testcase name="Formatter Utilities Empty string should be treated as falsy" time="0.001" classname=".Formatter Utilities"/>
+  <testcase name="Formatter Utilities Non-empty string should be truthy" time="0" classname=".Formatter Utilities"/>
+  <testcase name="Formatter Utilities Numeric zero should be falsy" time="0" classname=".Formatter Utilities"/>
+  <testcase name="View1 Controller I should test the View1 controller" time="0" classname=".View1 Controller"/>
+  <testcase name="View1 Controller Controller should have an onInit function" time="0" classname=".View1 Controller"/>
+  <testcase name="View1 Controller Controller metadata should have correct type" time="0" classname=".View1 Controller"/>
+  <testcase name="View1 Controller Controller should extend sap.ui.core.mvc.Controller" time="0" classname=".View1 Controller"/>
+  <testcase name="View1 Controller Controller display name should match expected value (intentional fail)" time="0" classname=".View1 Controller">
+    <failure type="">This test intentionally fails to demonstrate failure reporting
+Expected: "ns.html5module.controller.WrongName"
+Actual: "ns.html5module.controller.View1"
+    at Assert.strictEqual (node_modules/qunit/qunit/qunit.js:1885:14)
+
+</failure>
+  </testcase>
+  <testcase name="View1 Controller Controller should be destroyable" time="0" classname=".View1 Controller"/>
+  <testcase name="Model Utilities createDeviceModel should return a JSONModel" time="0.001" classname=".Model Utilities"/>
+  <testcase name="Model Utilities Device model should have isMobile property" time="0" classname=".Model Utilities"/>
+  <testcase name="Model Utilities Device model version should match (intentional fail)" time="0" classname=".Model Utilities">
+    <failure type="">This test intentionally fails
+Expected: "2.0"
+Actual: "1.0"
+    at Assert.strictEqual (node_modules/qunit/qunit/qunit.js:1885:14)
+
+</failure>
+  </testcase>
+  <testcase name="Navigation Journey Should see the initial page of the app" time="0.002" classname=".Navigation Journey">
+    <failure type="">Died on test #1: Given.iStartMyApp is not a function
+    at r (https://sapui5.hana.ondemand.com/resources/sap/ui/test/opaQunit.js:6:1821)
+    at o (https://sapui5.hana.ondemand.com/resources/sap/ui/test/opaQunit.js:6:902)
+    at webapp/test/integration/NavigationJourney.js:13:5
+    at c (https://sapui5.hana.ondemand.com/resources/sap-ui-core.js:10:17118)
+TypeError: Given.iStartMyApp is not a function
+    at Object.&lt;anonymous&gt; (webapp/test/integration/NavigationJourney.js:14:15)
+    at Object.&lt;anonymous&gt; (https://sapui5.hana.ondemand.com/resources/sap/ui/test/opaQunit.js:6:1998)
+
+</failure>
+  </testcase>
+  <system-out>
+    <![CDATA[HeadlessChrome 148.0.0 (Windows 10.0.0) INFO: '2026-05-25 17:42:12 [context.html] Device API logging initialized - DEVICE'
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
