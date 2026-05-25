@@ -11,7 +11,7 @@ module.exports = function(config) {
     .find(i => i.family === 'IPv4' && !i.internal)?.address || 'localhost';
 
   config.set({
-    frameworks: ['ui5', 'qunit', 'browserify', 'mocha'],
+    frameworks: ['ui5', 'qunit'],
 
     ui5: {
       url: "https://sapui5.hana.ondemand.com",
