@@ -14,100 +14,100 @@ module.exports = function(config) {
   // Writes reports/test-execution.xml in SonarQube Generic format.
   // Does NOT crash on OPA5/QUnit tests unlike karma-sonarqube-unit-reporter.
   function SonarGenericReporter(baseReporterDecorator) {
-    baseReporterDecorator(this);
+  baseReporterDecorator(this);
 
-    const specResults = [];
+  const specResults = [];
 
-    this.onSpecComplete = function(browser, result) {
-      specResults.push({
-        suite:   (result.suite || []).join(' '),
-        name:    result.description || 'unnamed',
-        time:    result.time || 1,
-        success: result.success,
-        skipped: result.skipped,
-        log:     result.log || []
-      });
-    };
+  this.onSpecComplete = function(browser, result) {
+    specResults.push({
+      suite:   (result.suite || []).join(' '),
+      name:    result.description || 'unnamed',
+      time:    result.time || 1,
+      success: result.success,
+      skipped: result.skipped,
+      log:     result.log || []
+    });
+  };
 
-    this.onRunComplete = function() {
-      // Group by suite → one <file> per suite
-      var suiteMap = {};
-      specResults.forEach(function(r) {
-        var key = r.suite || 'General';
-        if (!suiteMap[key]) suiteMap[key] = [];
-        suiteMap[key].push(r);
-      });
+  this.onRunComplete = function() {
+    var suiteMap = {};
+    specResults.forEach(function(r) {
+      var key = r.suite || 'General';
+      if (!suiteMap[key]) suiteMap[key] = [];
+      suiteMap[key].push(r);
+    });
 
-      function escapeXml(str) {
-        return String(str || '')
-          .replace(/&/g,  '&amp;')
-          .replace(/</g,  '&lt;')
-          .replace(/>/g,  '&gt;')
-          .replace(/"/g,  '&quot;')
-          .replace(/'/g,  '&apos;');
-      }
+    // Enhanced XML escaper to clean up problematic characters inside attributes safely
+    function escapeXml(str) {
+      return String(str || '')
+        .replace(/&/g,  '&amp;')
+        .replace(/</g,  '&lt;')
+        .replace(/>/g,  '&gt;')
+        .replace(/"/g,  '&quot;')
+        .replace(/'/g,  '&apos;');
+    }
 
-      function suiteToFilePath(suite) {
-       var lc = suite.toLowerCase();
-
-      const base = 'webapp/test/';   // 🔥 ADD THIS
+    function suiteToFilePath(suite) {
+      var lc = suite.toLowerCase();
+      const base = 'webapp/test/';
 
       if (lc.indexOf('navigation') !== -1 || lc.indexOf('journey') !== -1) {
-      return base + 'integration/NavigationJourney.js';
-       }
+        return base + 'integration/NavigationJourney.js';
+      }
       if (lc.indexOf('model') !== -1) {
-       return base + 'unit/model/models.js';
+        return base + 'unit/model/models.js';
       }
       if (lc.indexOf('formatter') !== -1) {
-      return base + 'unit/util/formatter.js';
+        return base + 'unit/util/formatter.js';
       }
       if (lc.indexOf('view1') !== -1 || lc.indexOf('controller') !== -1) {
-      return base + 'unit/controller/View1.controller.js';
+        return base + 'unit/controller/View1.controller.js';
       }
 
       return base + 'unit/' + suite.replace(/\s+/g, '_') + '.js';
-      }
+    }
 
-      var xml = '<testExecutions version="1">\n';
+    var xml = '<testExecutions version="1">\n';
 
-      Object.keys(suiteMap).forEach(function(suite) {
-        var filePath = suiteToFilePath(suite);
-        xml += '  <file path="' + escapeXml(filePath) + '">\n';
+    Object.keys(suiteMap).forEach(function(suite) {
+      var filePath = suiteToFilePath(suite);
+      xml += '  <file path="' + escapeXml(filePath) + '">\n';
 
-        suiteMap[suite].forEach(function(tc) {
-          var duration = Math.max(Math.round(tc.time), 1);
-          var name = escapeXml(tc.name);
+      suiteMap[suite].forEach(function(tc) {
+        var duration = Math.max(Math.round(tc.time), 1);
+        var name = escapeXml(tc.name);
 
-          if (tc.skipped) {
-            xml += '    <testCase name="' + name + '" duration="' + duration + '">\n';
-            xml += '      <skipped/>\n';
-            xml += '    </testCase>\n';
-          } else if (!tc.success) {
-            var msg = escapeXml((tc.log[0] || 'Test failed').substring(0, 500));
-            xml += '    <testCase name="' + name + '" duration="' + duration + '">\n';
-            xml += '      <failure message="' + msg + '"/>\n';
-            xml += '    </testCase>\n';
-          } else {
-            xml += '    <testCase name="' + name + '" duration="' + duration + '"/>\n';
-          }
-        });
-
-        xml += '  </file>\n';
+        if (tc.skipped) {
+          xml += '    <testCase name="' + name + '" duration="' + duration + '">\n';
+          xml += '      <skipped/>\n';
+          xml += '    </testCase>\n';
+        } else if (!tc.success) {
+          // Grab the raw log string and slice it safely 
+          var rawMsg = tc.log[0] || 'Test failed';
+          var cleanMsg = escapeXml(rawMsg.substring(0, 500));
+          
+          xml += '    <testCase name="' + name + '" duration="' + duration + '">\n';
+          xml += '      <failure message="' + cleanMsg + '"/>\n';
+          xml += '    </testCase>\n';
+        } else {
+          xml += '    <testCase name="' + name + '" duration="' + duration + '"/>\n';
+        }
       });
 
-      xml += '</testExecutions>\n';
+      xml += '  </file>\n';
+    });
 
-      var reportsDir = path.join(__dirname, 'reports');
-      if (!fs.existsSync(reportsDir)) {
-        fs.mkdirSync(reportsDir, { recursive: true });
-      }
-      var outputPath = path.join(reportsDir, 'test-execution.xml');
-      fs.writeFileSync(outputPath, xml, 'utf8');
-      console.log('[SonarGeneric] Written: ' + outputPath);
-    };
-  }
+    xml += '</testExecutions>\n';
 
-  SonarGenericReporter.$inject = ['baseReporterDecorator'];
+    var reportsDir = path.join(__dirname, 'reports');
+    if (!fs.existsSync(reportsDir)) {
+      fs.mkdirSync(reportsDir, { recursive: true });
+    }
+    var outputPath = path.join(reportsDir, 'test-execution.xml');
+    fs.writeFileSync(outputPath, xml, 'utf8');
+    console.log('[SonarGeneric] Written: ' + outputPath);
+  };
+}
   // ─────────────────────────────────────────────────────────────────────────────
 
   config.set({
