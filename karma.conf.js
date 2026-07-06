@@ -38,7 +38,7 @@ module.exports = function(config) {
     },
 
     // Adjusted to remove 'sonarGeneric' reporter
-    reporters: ['progress', 'coverage', 'junit'],
+    reporters: ['progress', 'coverage', 'junit', 'sonarqubeUnit'],
 
     coverageReporter: {
       dir: 'reports',
