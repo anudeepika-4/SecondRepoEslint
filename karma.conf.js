@@ -59,9 +59,7 @@ module.exports = function(config) {
     sonarQubeUnitReporter: {
       sonarQubeVersion: 'LATEST',
       outputFile: 'reports/Test-execution.xml',
-      overrideTestDescription: true,
-      testPaths: ['webapp/test'],
-      testFilePattern: '.js',
+      overrideTestDescription: false,
       useBrowserName: false
     },
     
