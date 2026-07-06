@@ -55,6 +55,15 @@ module.exports = function(config) {
       useBrowserName: false,
       suite: 'KarmaTests'
     },
+
+    sonarQubeUnitReporter: {
+      sonarQubeVersion: 'LATEST',
+      outputFile: 'reports/Test-execution.xml',
+      overrideTestDescription: true,
+      testPaths: ['webapp/test'],
+      testFilePattern: '.js',
+      useBrowserName: false
+    },
     
     port: 9876,
     hostname: containerIp,
@@ -102,7 +111,8 @@ module.exports = function(config) {
       'karma-junit-reporter',
       'karma-browserify',
       'karma-coverage',
-      'karma-webdriver-launcher'
+      'karma-webdriver-launcher',
+      'karma-sonarqube-unit-reporter'
     ],
 
     concurrency: 1,
