@@ -96,13 +96,15 @@ module.exports = function(config) {
       url: "https://sapui5.hana.ondemand.com",
       mode: "script",
       config: {
-        async: true,
-        resourceRoots: { "ns.HTML5Module": "/base/webapp" }
+       async: true,
+       resourceRoots: {
+         "ns.html5module": "/base/webapp"      // lowercase — matches the app
+      }
       },
-      tests: [
-        "ns/HTML5Module/test/unit/AllTests",
-        "ns/HTML5Module/test/integration/AllJourneys"
-      ]
+    tests: [
+      "ns/html5module/test/unit/AllTests",       // lowercase
+      "ns/html5module/test/integration/AllJourneys"
+    ] 
     },
 
     files: [
