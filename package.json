@@ -15,7 +15,7 @@
     "@sapui5/ts-types": "1.71.x",
     "@ui5/cli": "^4.0.33",
     "bestzip": "2.1.4",
-    "eslint": "^9.39.0"
+    "eslint": "^9.39.0",
     "karma": "^4.4.1",
     "karma-browserify": "^8.1.0",
     "karma-chrome-launcher": "^3.1.0",
